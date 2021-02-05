@@ -1,5 +1,6 @@
 package edu.neu.madcourse.numad21sp_colinriley;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,5 +31,10 @@ public class FirstFragment extends Fragment {
                         .navigate(R.id.action_FirstFragment_to_SecondFragment);
             }
         });
+    }
+
+    public void onClickClicky(View view) {
+        Intent intent = new Intent(getActivity(), ClickyActivity.class);
+        startActivity(intent);
     }
 }
