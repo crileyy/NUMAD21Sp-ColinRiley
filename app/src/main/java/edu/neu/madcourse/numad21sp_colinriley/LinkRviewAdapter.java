@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LinkReviewAdapter extends RecyclerView.Adapter<LinkRViewHolder> {
+public class LinkRviewAdapter extends RecyclerView.Adapter<LinkRViewHolder> {
 
     private final List<LinkItemCard> itemList;
     private ItemClickListener listener;
 
-    public LinkReviewAdapter(List<LinkItemCard> itemList) {
+    public LinkRviewAdapter(List<LinkItemCard> itemList) {
         this.itemList = itemList;
     }
 
@@ -34,8 +34,8 @@ public class LinkReviewAdapter extends RecyclerView.Adapter<LinkRViewHolder> {
     public void onBindViewHolder(@NonNull LinkRViewHolder holder, int position) {
         LinkItemCard currentItem = this.itemList.get(position);
 
-        holder.linkName.setText("");
-        holder.url.setText("");
+        holder.linkName.setText(currentItem.getLinkName());
+        holder.url.setText(currentItem.getUrl());
     }
 
     @Override
