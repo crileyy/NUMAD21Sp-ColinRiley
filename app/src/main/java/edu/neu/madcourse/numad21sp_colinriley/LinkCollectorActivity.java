@@ -5,10 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -88,7 +94,7 @@ public class LinkCollectorActivity extends AppCompatActivity {
         }
         // The first time to open this Activity
         else {
-            LinkItemCard item1 = new LinkItemCard("test", "test");
+            LinkItemCard item1 = new LinkItemCard("test", "https://www.youtube.com/");
             itemList.add(item1);
         }
     }
@@ -117,16 +123,46 @@ public class LinkCollectorActivity extends AppCompatActivity {
     }
 
     private void addItem(int position) {
-        itemList.add(position, new LinkItemCard("Test Link", "https://www.google.com/"));
-        // TODO need a pop up so the user can specify the name and url to add
-        Toast.makeText(LinkCollectorActivity.this, "Added a link item", Toast.LENGTH_SHORT).show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Title");
 
-        rviewAdapter.notifyItemInserted(position);
+        View viewInflated = LayoutInflater.from(this).inflate(R.layout.dialog_link, findViewById(R.id.content), false);
+        final EditText linkName = (EditText) viewInflated.findViewById(R.id.link_name);
+        final EditText url = (EditText) viewInflated.findViewById(R.id.link_url);
+        builder.setView(viewInflated);
+        // Set up the buttons
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                String linkNameText = linkName.getText().toString();
+                String urlText = url.getText().toString();
+                itemList.add(position, new LinkItemCard(linkNameText, urlText));
+                Toast.makeText(LinkCollectorActivity.this, "Added a link item", Toast.LENGTH_SHORT).show();
+                rviewAdapter.notifyItemInserted(position);
+            }
+        });
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
+
+        //itemList.add(position, new LinkItemCard("Test Link", "https://www.google.com/"));
+        // TODO need a pop up so the user can specify the name and url to add
+        //Toast.makeText(LinkCollectorActivity.this, "Added a link item", Toast.LENGTH_SHORT).show();
+
+        //rviewAdapter.notifyItemInserted(position);
     }
 
     // TODO need onClick for Go button on each list item
     public void onClickGo(View view) {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(view.findViewById(R.id.url).toString()));
-        startActivity(intent);
+        System.out.println(view.findViewById(R.id.url));
+        System.out.println(view);
+        // TODO the view given is the button view, how to get the textview of the url?
+        //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(((TextView)view.findViewById(R.id.url)).getText().toString()));
+        //startActivity(intent);
     }
 }

@@ -29,4 +29,6 @@
     <string name="button_e">E</string>
     <string name="button_f">F</string>
     <string name="link_collector">Link Collector</string>
+    <string name="link_name_placeholder">Name</string>
+    <string name="link_url_placeholder">URL</string>
 </resources>
