@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -115,12 +117,16 @@ public class LinkCollectorActivity extends AppCompatActivity {
     }
 
     private void addItem(int position) {
-        itemList.add(position, new LinkItemCard("add name", "add url"));
+        itemList.add(position, new LinkItemCard("Test Link", "https://www.google.com/"));
         // TODO need a pop up so the user can specify the name and url to add
-        Toast.makeText(LinkCollectorActivity.this, "Add an item", Toast.LENGTH_SHORT).show();
+        Toast.makeText(LinkCollectorActivity.this, "Added a link item", Toast.LENGTH_SHORT).show();
 
         rviewAdapter.notifyItemInserted(position);
     }
 
     // TODO need onClick for Go button on each list item
+    public void onClickGo(View view) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(view.findViewById(R.id.url).toString()));
+        startActivity(intent);
+    }
 }

@@ -1,5 +1,8 @@
 package edu.neu.madcourse.numad21sp_colinriley;
 
+import android.content.Intent;
+import android.net.Uri;
+
 public class LinkItemCard implements ItemClickListener {
 
     private final String linkName;
@@ -12,7 +15,7 @@ public class LinkItemCard implements ItemClickListener {
 
     @Override
     public void onItemClick(int position) {
-        // TODO fill in with something or remove
+
     }
 
     public String getLinkName() {
