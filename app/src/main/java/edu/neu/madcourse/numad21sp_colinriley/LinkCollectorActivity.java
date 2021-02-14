@@ -2,6 +2,7 @@ package edu.neu.madcourse.numad21sp_colinriley;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -48,6 +49,23 @@ public class LinkCollectorActivity extends AppCompatActivity {
                 addItem(pos);
             }
         });
+
+        //Specify what action a specific gesture performs, in this case swiping right or left deletes the entry
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                Toast.makeText(LinkCollectorActivity.this, "Deleted a link", Toast.LENGTH_SHORT).show();
+                int position = viewHolder.getLayoutPosition();
+                itemList.remove(position);
+                rviewAdapter.notifyItemRemoved(position);
+            }
+        });
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     // Handling Orientation Changes on Android
@@ -124,7 +142,7 @@ public class LinkCollectorActivity extends AppCompatActivity {
 
     private void addItem(int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Title");
+        builder.setTitle("Add a link");
 
         View viewInflated = LayoutInflater.from(this).inflate(R.layout.dialog_link, findViewById(R.id.content), false);
         final EditText linkName = (EditText) viewInflated.findViewById(R.id.link_name);
@@ -138,7 +156,7 @@ public class LinkCollectorActivity extends AppCompatActivity {
                 String linkNameText = linkName.getText().toString();
                 String urlText = url.getText().toString();
                 itemList.add(position, new LinkItemCard(linkNameText, urlText));
-                Toast.makeText(LinkCollectorActivity.this, "Added a link item", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LinkCollectorActivity.this, "Added a new link", Toast.LENGTH_SHORT).show();
                 rviewAdapter.notifyItemInserted(position);
             }
         });
