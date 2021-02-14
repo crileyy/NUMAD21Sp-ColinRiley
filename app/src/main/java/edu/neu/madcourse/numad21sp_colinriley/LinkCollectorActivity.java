@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -177,8 +178,8 @@ public class LinkCollectorActivity extends AppCompatActivity {
 
     // TODO need onClick for Go button on each list item
     public void onClickGo(View view) {
-        System.out.println(view.findViewById(R.id.url));
-        System.out.println(view);
+        Log.e("id", view.findViewById(R.id.url).toString());
+        Log.e("id", view.toString());
         // TODO the view given is the button view, how to get the textview of the url?
         //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(((TextView)view.findViewById(R.id.url)).getText().toString()));
         //startActivity(intent);
