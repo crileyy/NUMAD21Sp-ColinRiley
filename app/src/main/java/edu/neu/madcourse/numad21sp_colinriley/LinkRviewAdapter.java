@@ -12,13 +12,14 @@ import java.util.List;
 public class LinkRviewAdapter extends RecyclerView.Adapter<LinkRViewHolder> {
 
     private final List<LinkItemCard> itemList;
-    private ItemClickListener listener;
+    private ButtonClickListener listener;
+
 
     public LinkRviewAdapter(List<LinkItemCard> itemList) {
         this.itemList = itemList;
     }
 
-    public void setOnItemClickListener(ItemClickListener listener) {
+    public void setOnButtonClickListener(ButtonClickListener listener) {
         this.listener = listener;
     }
 

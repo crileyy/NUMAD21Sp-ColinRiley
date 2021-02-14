@@ -1,9 +1,6 @@
 package edu.neu.madcourse.numad21sp_colinriley;
 
-import android.content.Intent;
-import android.net.Uri;
-
-public class LinkItemCard implements ItemClickListener {
+public class LinkItemCard implements ButtonClickListener {
 
     private final String linkName;
     private final String url;
@@ -14,7 +11,7 @@ public class LinkItemCard implements ItemClickListener {
     }
 
     @Override
-    public void onItemClick(int position) {
+    public void onButtonClick(String url) {
 
     }
 

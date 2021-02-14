@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -125,16 +124,14 @@ public class LinkCollectorActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
 
         rviewAdapter = new LinkRviewAdapter(itemList);
-        ItemClickListener itemClickListener = new ItemClickListener() {
+        ButtonClickListener buttonClickListener = new ButtonClickListener() {
             @Override
-            public void onItemClick(int position) {
-                //attributions bond to the item has been changed
-                itemList.get(position).onItemClick(position);
-
-                rviewAdapter.notifyItemChanged(position);
+            public void onButtonClick(String url) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
             }
         };
-        rviewAdapter.setOnItemClickListener(itemClickListener);
+        rviewAdapter.setOnButtonClickListener(buttonClickListener);
 
         recyclerView.setAdapter(rviewAdapter);
         recyclerView.setLayoutManager(rLayoutManger);
@@ -156,6 +153,7 @@ public class LinkCollectorActivity extends AppCompatActivity {
                 dialog.dismiss();
                 String linkNameText = linkName.getText().toString();
                 String urlText = url.getText().toString();
+                // TODO need url validation
                 itemList.add(position, new LinkItemCard(linkNameText, urlText));
                 Toast.makeText(LinkCollectorActivity.this, "Added a new link", Toast.LENGTH_SHORT).show();
                 rviewAdapter.notifyItemInserted(position);
@@ -168,20 +166,6 @@ public class LinkCollectorActivity extends AppCompatActivity {
             }
         });
         builder.show();
-
-        //itemList.add(position, new LinkItemCard("Test Link", "https://www.google.com/"));
-        // TODO need a pop up so the user can specify the name and url to add
-        //Toast.makeText(LinkCollectorActivity.this, "Added a link item", Toast.LENGTH_SHORT).show();
-
-        //rviewAdapter.notifyItemInserted(position);
     }
 
-    // TODO need onClick for Go button on each list item
-    public void onClickGo(View view) {
-        Log.e("id", view.findViewById(R.id.url).toString());
-        Log.e("id", view.toString());
-        // TODO the view given is the button view, how to get the textview of the url?
-        //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(((TextView)view.findViewById(R.id.url)).getText().toString()));
-        //startActivity(intent);
-    }
 }

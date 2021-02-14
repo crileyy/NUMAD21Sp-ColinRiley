@@ -31,4 +31,5 @@
     <string name="link_collector">Link Collector</string>
     <string name="link_name_placeholder">Name</string>
     <string name="link_url_placeholder">URL</string>
+    <string name="go_text">Go</string>
 </resources>
