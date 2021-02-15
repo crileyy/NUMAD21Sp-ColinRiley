@@ -112,8 +112,7 @@ public class LinkCollectorActivity extends AppCompatActivity {
         }
         // The first time to open this Activity
         else {
-            LinkItemCard item1 = new LinkItemCard("test", "https://www.youtube.com/");
-            itemList.add(item1);
+            // empty list for now
         }
     }
 
@@ -127,7 +126,7 @@ public class LinkCollectorActivity extends AppCompatActivity {
         ButtonClickListener buttonClickListener = new ButtonClickListener() {
             @Override
             public void onButtonClick(String url) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(addProtocol(url)));
                 startActivity(intent);
             }
         };
@@ -153,10 +152,14 @@ public class LinkCollectorActivity extends AppCompatActivity {
                 dialog.dismiss();
                 String linkNameText = linkName.getText().toString();
                 String urlText = url.getText().toString();
-                // TODO need url validation
-                itemList.add(position, new LinkItemCard(linkNameText, urlText));
-                Toast.makeText(LinkCollectorActivity.this, "Added a new link", Toast.LENGTH_SHORT).show();
-                rviewAdapter.notifyItemInserted(position);
+                if (urlText.endsWith(".com") || urlText.endsWith(".net")
+                        || urlText.endsWith(".org") || urlText.endsWith(".edu")) {
+                    itemList.add(position, new LinkItemCard(linkNameText, urlText));
+                    Toast.makeText(LinkCollectorActivity.this, "Added a new link", Toast.LENGTH_SHORT).show();
+                    rviewAdapter.notifyItemInserted(position);
+                } else {
+                    Toast.makeText(LinkCollectorActivity.this, "Invalid URL format", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -166,6 +169,14 @@ public class LinkCollectorActivity extends AppCompatActivity {
             }
         });
         builder.show();
+    }
+
+    private String addProtocol(String urlText) {
+        if (urlText.contains("https://") || urlText.contains("http://")) {
+            return urlText;
+        } else {
+            return "https://" + urlText;
+        }
     }
 
 }
