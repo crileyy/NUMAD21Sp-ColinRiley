@@ -47,5 +47,13 @@ public class FirstFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        view.findViewById(R.id.locator_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), LocatorActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
