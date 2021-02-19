@@ -8,11 +8,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+
+import java.util.Arrays;
 
 public class FirstFragment extends Fragment {
     private static final int REQUEST_CODE = 1;
@@ -77,19 +80,14 @@ public class FirstFragment extends Fragment {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 &&
                         grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Permission is granted. Continue the action or workflow
-                    // in your app.
+                    // permission is granted
                     Intent intent = new Intent(getActivity(), LocatorActivity.class);
                     startActivity(intent);
                 }  else {
-                    // Explain to the user that the feature is unavailable because
-                    // the features requires a permission that the user has denied.
-                    // At the same time, respect the user's decision. Don't link to
-                    // system settings in an effort to convince the user to change
-                    // their decision.
-                    Log.e("permission_error", "permission not granted");
+                    // permission denied
+                    Log.e("permission_error", "permission not granted " + Arrays.toString(grantResults));
+                    Toast.makeText(getActivity(), "Location services permission not granted", Toast.LENGTH_LONG).show();
                 }
-                return;
         }
 
     }
