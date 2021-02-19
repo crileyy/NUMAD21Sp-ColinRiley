@@ -1,5 +1,6 @@
 package edu.neu.madcourse.numad21sp_colinriley;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -14,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class LocatorActivity extends AppCompatActivity {
+    private static final String LATITUDE_STRING = "LATITUDE_STRING";
+    private static final String LONGITUDE_STRING = "LONGITUDE_STRING";
     LocationManager locationManager;
     TextView latitudeText, longitutdeText;
     String latitude, longitude;
@@ -25,6 +28,7 @@ public class LocatorActivity extends AppCompatActivity {
         latitudeText = findViewById(R.id.latitude_text);
         longitutdeText = findViewById(R.id.longitude_text);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        init(savedInstanceState);
     }
 
     @Override
@@ -36,7 +40,6 @@ public class LocatorActivity extends AppCompatActivity {
             if (ContextCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Searching for location", Toast.LENGTH_SHORT).show();
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 10, listener);
             }
         }
@@ -53,8 +56,35 @@ public class LocatorActivity extends AppCompatActivity {
         }
     };
 
+    @Override
     protected void onStop() {
         super.onStop();
         locationManager.removeUpdates(listener);
+    }
+
+    private void init(Bundle savedInstanceState) {
+        initialItemData(savedInstanceState);
+    }
+
+    // Handling Orientation Changes on Android
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putString(LATITUDE_STRING, latitude);
+        outState.putString(LONGITUDE_STRING, longitude);
+
+        super.onSaveInstanceState(outState);
+    }
+
+    private void initialItemData(Bundle savedInstanceState) {
+        // Not the first time to open this Activity
+        if (savedInstanceState != null && savedInstanceState.containsKey(LATITUDE_STRING)
+                && savedInstanceState.containsKey(LONGITUDE_STRING)) {
+            latitudeText.setText(savedInstanceState.getString(LATITUDE_STRING));
+            longitutdeText.setText(savedInstanceState.getString(LONGITUDE_STRING));
+        }
+        // The first time to open this Activity
+        else {
+            Toast.makeText(this, "Searching for location", Toast.LENGTH_SHORT).show();
+        }
     }
 }
