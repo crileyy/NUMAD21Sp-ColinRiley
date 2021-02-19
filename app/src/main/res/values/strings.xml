@@ -33,4 +33,6 @@
     <string name="link_url_placeholder">URL</string>
     <string name="go_text">Go</string>
     <string name="locator">Locator</string>
+    <string name="latitude">Latitude:</string>
+    <string name="longitude">Longitude:</string>
 </resources>
