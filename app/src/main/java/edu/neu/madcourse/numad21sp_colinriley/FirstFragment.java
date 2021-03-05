@@ -74,7 +74,7 @@ public class FirstFragment extends Fragment {
         view.findViewById(R.id.service_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), LinkCollectorActivity.class);
+                Intent intent = new Intent(getActivity(), AtYourServiceActivity.class);
                 startActivity(intent);
             }
         });
