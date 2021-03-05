@@ -69,6 +69,7 @@ public class AtYourServiceActivity extends AppCompatActivity {
         // Not the first time to open this Activity
         if (savedInstanceState != null && savedInstanceState.containsKey(TEMP_STRING)) {
             String savedTemp = savedInstanceState.getString(TEMP_STRING);
+            temp = savedTemp;
             currentTemp.setText("Current temperature (f): "
                     .concat(savedTemp == null ? "" : savedTemp));
         }
