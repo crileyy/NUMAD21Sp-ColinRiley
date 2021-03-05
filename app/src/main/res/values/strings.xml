@@ -35,4 +35,5 @@
     <string name="locator">Locator</string>
     <string name="latitude">Latitude:</string>
     <string name="longitude">Longitude:</string>
+    <string name="at_your_service">At Your Service</string>
 </resources>
