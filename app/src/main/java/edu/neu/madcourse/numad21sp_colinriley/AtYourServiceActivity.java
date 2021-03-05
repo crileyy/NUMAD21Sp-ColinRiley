@@ -1,5 +1,6 @@
 package edu.neu.madcourse.numad21sp_colinriley;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.AsyncTask;
@@ -21,10 +22,12 @@ import java.net.URL;
 public class AtYourServiceActivity extends AppCompatActivity {
 
     public static final String AT_YOUR_SERVICE_ACTIVITY = "At Your Service Activity: ";
+    private static final String WEATHER_URL = "https://api.weatherapi.com/v1/current.json?key=714dffb2ca184d4291733758210503&aqi=no&q=";
+    private static final String TEMP_STRING = "TEMP_STRING";
     public TextView zip;
     public TextView currentTemp;
     public Button goButton;
-    private final String WEATHER_URL = "https://api.weatherapi.com/v1/current.json?key=714dffb2ca184d4291733758210503&aqi=no&q=";
+    private String temp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class AtYourServiceActivity extends AppCompatActivity {
         zip = findViewById(R.id.enter_zip);
         currentTemp = findViewById(R.id.display_temp_text);
         goButton = findViewById(R.id.get_weather_button);
+        init(savedInstanceState);
     }
 
     public void callWeatherServiceButtonHandler(View view) {
@@ -46,6 +50,27 @@ public class AtYourServiceActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e("Weather API call error: ", e.toString());
             Toast.makeText(getApplication(),"Error fetching current temperature",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void init(Bundle savedInstanceState) {
+        initialItemData(savedInstanceState);
+    }
+
+    // Handling Orientation Changes on Android
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putString(TEMP_STRING, temp);
+
+        super.onSaveInstanceState(outState);
+    }
+
+    private void initialItemData(Bundle savedInstanceState) {
+        // Not the first time to open this Activity
+        if (savedInstanceState != null && savedInstanceState.containsKey(TEMP_STRING)) {
+            String savedTemp = savedInstanceState.getString(TEMP_STRING);
+            currentTemp.setText("Current temperature (f): "
+                    .concat(savedTemp == null ? "" : savedTemp));
         }
     }
 
@@ -88,7 +113,8 @@ public class AtYourServiceActivity extends AppCompatActivity {
         protected void onPostExecute(JSONObject jObject) {
             super.onPostExecute(jObject);
             try {
-                currentTemp.setText("Current temperature (f): ".concat(jObject.getJSONObject("current").getString("temp_f")));
+                temp = jObject.getJSONObject("current").getString("temp_f");
+                currentTemp.setText("Current temperature (f): ".concat(temp));
             } catch (JSONException e) {
                 Toast.makeText(getApplication(),"Error setting current temperature",Toast.LENGTH_SHORT).show();
             }
