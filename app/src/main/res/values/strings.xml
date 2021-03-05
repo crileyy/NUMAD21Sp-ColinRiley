@@ -36,4 +36,8 @@
     <string name="latitude">Latitude:</string>
     <string name="longitude">Longitude:</string>
     <string name="at_your_service">At Your Service</string>
+    <string name="get_current_temperature">Get Current Temperature</string>
+    <string name="current_temperature">Current temperature (f):</string>
+    <string name="go_button_text">Go</string>
+    <string name="enter_zip_code">Enter ZIP code</string>
 </resources>
